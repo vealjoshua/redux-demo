@@ -7,7 +7,7 @@ Compare my code to yours to solve issues you might encounter. You may also copy 
 
 1. Setting Up the Reducer and Store
 
-    Show users the stand-alone function of redux by create a node.js file containing a store and reducer and output the state.
+    Show users the stand-alone function of redux by create a node.js file containing a store and reducer and output the state. npm install --save redux
 
 // Initial State
 // Reducer
@@ -22,3 +22,27 @@ Compare my code to yours to solve issues you might encounter. You may also copy 
 3. Adding Subscriptions
 
     Show how to add subscriptions to the store to get updated whenever an action is dispatched.
+
+4. Connecting React to Redux
+
+    The store should be created right before the application starts (index.js).
+    Create a reducer file that returns the state. Create a store in index.js.
+
+5. Connecting the Store to React
+
+    npm install --save react-redux
+    import Provider. Allows us to inject store into React components.
+    How to get the counter value from the store into the Counter container? (What is a container?)
+    We don't change the pattern of a few selected components getting the state and passing it on.
+    import { connect } from 'react-redux' to connect container to store. connect is a curried function.
+    connect takes a function: mapReduxStateToContainerProps. 
+    The state in the container manages internal state.
+    Update react and react-dom to 16.6.0
+
+6. Dispatching Actions from within the Container
+
+    Connect takes another argument: mapDispatchActionsToContainerProps
+    This function returns an object with onIncrementCounter.
+    Update CounterControl to use this.props.onIncrementCounter.
+    Update reducer with if statement to handle 'INCREMENT' case
+    Give 5 minutes for users to complete DECREMENT, ADD, SUBTRACT
