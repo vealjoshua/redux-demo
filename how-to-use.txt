@@ -46,3 +46,11 @@ Compare my code to yours to solve issues you might encounter. You may also copy 
     Update CounterControl to use this.props.onIncrementCounter.
     Update reducer with if statement to handle 'INCREMENT' case
     Give 5 minutes for users to complete DECREMENT, ADD, SUBTRACT
+
+7. Assignment: Passing and Retrieving Data with Action
+
+    Give 5 minutes to fill out the rest of the actions.
+
+8. Switch-Case in the Reducer
+
+    Change out the if statements for switch cases
