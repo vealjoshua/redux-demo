@@ -81,3 +81,5 @@ Compare my code to yours to solve issues you might encounter. You may also copy 
         result => result.id !== action.resultElId
       );
     Update the dispatch payload and the onClick prop of the li.
+
+    https://redux.js.org/recipes/structuring-reducers/immutable-update-patterns
