@@ -160,4 +160,61 @@ Compare my code to yours to solve issues you might encounter. You may also copy 
     We can't return dispatch(storeResult) because it would be an infinite loop. So create a new function saveResult to return the result.
     Store Result button now takes 2 seconds.
 
-    
+16. Restructuring Actions
+
+    Create a counter.js and result.js in the actions folder. Rename actions.js to actionTypes.js
+    Keep constants in actionTypes. Move action creators to respective files.
+    Create an index.js in the actions folder.
+    Add 
+    export { add, subtract, increment, decrement } from "./counter";
+
+    export { storeResult, deleteResult } from "./result";
+    to index.js
+    Change actionTypes import in Counter to index
+
+17. Where to Put Data Transforming Logic?
+
+18. Using Action Creators and Get State
+    Can pass getState as an argument in the return function of storeResult.
+
+    export const storeResult = res => {
+        return (dispatch, getState) => {
+            setTimeout(() => {
+            const oldCounter = getState().ctr.counter;
+            dispatch(saveResult(res));
+            }, 2000);
+        };
+    };
+
+    You should try not to use getState.
+
+19. Using Utility Functions
+
+    We can abstract our reducers even more. Create a utility.js file in the store.
+    import { updateObject } from '../utility in counter.js reducer.
+
+    export const updateObject = (oldObject, updatedValues) => {
+    return {
+        ...oldObject,
+        ...updatedValues
+    };
+    };
+
+    Replace return functions in counter.js reducer with updateObject.
+    Do the same for result.js reducer. For DELETE_RESULT is an array, we can write a short method.
+
+20. A Leaner Switch Case Statement
+
+    Can create a helper function for deleteResult
+
+    const deleteResult = (state, action) => {
+  const updatedArray = state.results.filter(
+    result => result.id !== action.resultElId
+  );
+
+  return updateObject(state, { results: updatedArray });
+};
+
+21. Diving Much Deeper
+
+    https://redux.js.org/
