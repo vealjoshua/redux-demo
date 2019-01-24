@@ -110,3 +110,26 @@ Compare my code to yours to solve issues you might encounter. You may also copy 
     Update result.js with action.result instead of state.counter
     Update Counter.js by passing result into dispatch, sending the result in the payload, and passing the counter in the button onClick.
     Changed the list key to index. Deleted Counter.js CounterChangedHandler and state.
+
+13. Adding Middleware
+
+    Add a logger to index.js.
+    next is used to execute the next function in the process.
+    const logger = store => {
+    return next => {
+        return action => {
+        return action => {
+            console.log("[Middlewar] Dispatching", action);
+            const result = next(action);
+            console.log("[Middleware] next state", store.getState());
+            return result;
+        };
+        };
+    };
+    };
+    Use applyMiddleware in the createStore function and apply the logger.
+
+13. Using the Redux Devtools
+
+    Google redux DevTools. Add to Chrome. Copy window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ from Advanced store setup since we're using middleware.
+    Import compose in index.js. Wrap applyMiddleware with composeEnhancers.
