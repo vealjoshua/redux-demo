@@ -154,6 +154,42 @@ Compare my code to yours to solve issues you might encounter. You may also copy 
 
     Change out the if statements for switch cases
 
+    -------reducer.js-----------
+    const initialState = {
+        counter: 0,
+        results: []
+    };
+
+    const reducer = (state = initialState, action) => {
+    switch (action.type) {
+        case "INCREMENT":
+        return {
+            ...state,
+            counter: state.counter + 1
+        };
+        case "DECREMENT":
+        return {
+            ...state,
+            counter: state.counter - 1
+        };
+        case "ADD":
+        return {
+            ...state,
+            counter: state.counter + action.value
+        };
+        case "SUBTRACT":
+        return {
+            ...state,
+            counter: state.counter - action.value
+        };
+        default:
+        return state;
+    }
+    };
+
+    export default reducer;
+
+
 9. Updating State Immutably
 
     We are going to create a way to store the counter and delete it.
