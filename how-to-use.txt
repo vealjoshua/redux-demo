@@ -127,9 +127,11 @@ Compare my code to yours to solve issues you might encounter. You may also copy 
         };
     };
     };
+    import applyMiddleware from redux
     Use applyMiddleware in the createStore function and apply the logger.
 
 13. Using the Redux Devtools
 
     Google redux DevTools. Add to Chrome. Copy window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ from Advanced store setup since we're using middleware.
-    Import compose in index.js. Wrap applyMiddleware with composeEnhancers.
+    Import compose from redux in index.js. Wrap applyMiddleware with composeEnhancers.
+    const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
