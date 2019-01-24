@@ -118,14 +118,12 @@ Compare my code to yours to solve issues you might encounter. You may also copy 
     const logger = store => {
     return next => {
         return action => {
-        return action => {
             console.log("[Middlewar] Dispatching", action);
             const result = next(action);
             console.log("[Middleware] next state", store.getState());
             return result;
         };
         };
-    };
     };
     Use applyMiddleware in the createStore function and apply the logger.
 
