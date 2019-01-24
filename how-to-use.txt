@@ -217,3 +217,39 @@ Compare my code to yours to solve issues you might encounter. You may also copy 
     On storeResult, create a new resuls array with state.results.concat(state.counter)
     Add storeResult to the container props. 
     map out storedResult to li elements.
+
+    <hr />
+        <button onClick={this.props.onStoreResult}>Store Result</button>
+        <ul>
+          {this.props.storedResults.map(strResult => (
+            <li
+              key={strResult.id}
+              onClick={() => this.props.onDeleteResult(strResult.id)}
+            >
+              {strResult.value}
+            </li>
+          ))}
+        </ul>
+
+const mapReduxStateToContainerProps = state => {
+  return {
+    ctr: state.counter,
+    storedResults: state.results
+  };
+};
+
+const mapDispatchActionsToContainerProps = dispatch => {
+  return {
+    onIncrementCounter: () => dispatch({ type: "INCREMENT" }),
+    onDecrementCounter: () => dispatch({ type: "DECREMENT" }),
+    onAddCounter: () => dispatch({ type: "ADD", value: 5 }),
+    onSubtractCounter: () => dispatch({ type: "SUBTRACT", value: 5 }),
+    onStoreResult: () => dispatch({ type: "STORE_RESULT" }),
+    onDeleteResult: id => dispatch({ type: "DELETE_RESULT", resultElId: id })
+  };
+};
+
+export default connect(
+  mapReduxStateToContainerProps,
+  mapDispatchActionsToContainerProps
+)(Counter);
