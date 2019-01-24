@@ -146,6 +146,10 @@ Compare my code to yours to solve issues you might encounter. You may also copy 
         return state;
     };
 
+    Update CounterOutput
+        <CounterOutput value={this.props.ctr} />
+
+
 7. Assignment: Passing and Retrieving Data with Action
 
     Give 5 minutes to fill out the rest of the actions.
