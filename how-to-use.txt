@@ -83,3 +83,30 @@ Compare my code to yours to solve issues you might encounter. You may also copy 
     Update the dispatch payload and the onClick prop of the li.
 
     https://redux.js.org/recipes/structuring-reducers/immutable-update-patterns
+
+11. Outsourcing Action Types
+
+    It's a good practice to outsource actions to reduce bugs typos.
+    Create an actions.js file and export const actions.
+    import * as actionTypes from './actions' in reducer.js
+    If a case is mispelled, the compiler throws an error.
+    Replace actionTypes in reducer and Counter
+
+12. Combining Multiple Reducers
+
+    Split up the rudecers in reducer.js. This will help the code scale as more code is added.
+    Create a reducers folder. Create 2 files counter, result (the 2 states) in the reducers folder.
+    Copy reducer code to both files. Update actions import. The counter is still being access in result.js because the reducers are going to be combined in the end.
+    Delete reducer.js
+    Import the reducers into index.js
+    Import combineReducers
+    Combine the reducers.
+    const rootReducer = combineReducers({
+        ctr: counterReducer,
+        res: resultReducer
+    })
+    Update mapReduxStateToContainerProps with state.ctr.counter, state.res.result. Combining reducers adds another layer.
+    There's an error now. The reducer function only has access to the local state, not the global state.
+    Update result.js with action.result instead of state.counter
+    Update Counter.js by passing result into dispatch, sending the result in the payload, and passing the counter in the button onClick.
+    Changed the list key to index. Deleted Counter.js CounterChangedHandler and state.
