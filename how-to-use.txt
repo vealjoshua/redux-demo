@@ -153,3 +153,38 @@ Compare my code to yours to solve issues you might encounter. You may also copy 
 8. Switch-Case in the Reducer
 
     Change out the if statements for switch cases
+
+    -------reducer.js-----------
+    const initialState = {
+        counter: 0,
+        results: []
+    };
+
+    const reducer = (state = initialState, action) => {
+    switch (action.type) {
+        case "INCREMENT":
+        return {
+            ...state,
+            counter: state.counter + 1
+        };
+        case "DECREMENT":
+        return {
+            ...state,
+            counter: state.counter - 1
+        };
+        case "ADD":
+        return {
+            ...state,
+            counter: state.counter + action.value
+        };
+        case "SUBTRACT":
+        return {
+            ...state,
+            counter: state.counter - action.value
+        };
+        default:
+        return state;
+    }
+    };
+
+    export default reducer;
