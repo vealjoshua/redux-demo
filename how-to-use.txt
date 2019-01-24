@@ -204,6 +204,10 @@ Compare my code to yours to solve issues you might encounter. You may also copy 
 
     ------Counter.js----------
     Add onStoreResult and onDeleteResult to mapDispatchToProps.
+    
+    onStoreResult: () => dispatch({ type: "STORE_RESULT" }),
+    onDeleteResult: id => dispatch({ type: "DELETE_RESULT", resultElId: id })
+
     Add the onClick props to the button and li.
 
         <hr />
@@ -215,7 +219,26 @@ Compare my code to yours to solve issues you might encounter. You may also copy 
     The actions have to be handled in the reducer.
     Add spread operator to each case. 
     On storeResult, create a new resuls array with state.results.concat(state.counter)
-    Add storeResult to the container props. 
+
+    -----------reducer.js------------
+    case "STORE_RESULT":
+      return {
+        ...state,
+        results: state.results.concat({ id: new Date(), value: state.counter })
+      };
+    case "DELETE_RESULT":
+      return {};
+
+    Add storedResult to the container props. 
+    
+    const mapReduxStateToContainerProps = state => {
+        return {
+            ctr: state.counter,
+            storedResults: state.results
+        };
+    };
+
+
     map out storedResult to li elements.
 
     <hr />
@@ -231,25 +254,3 @@ Compare my code to yours to solve issues you might encounter. You may also copy 
           ))}
         </ul>
 
-const mapReduxStateToContainerProps = state => {
-  return {
-    ctr: state.counter,
-    storedResults: state.results
-  };
-};
-
-const mapDispatchActionsToContainerProps = dispatch => {
-  return {
-    onIncrementCounter: () => dispatch({ type: "INCREMENT" }),
-    onDecrementCounter: () => dispatch({ type: "DECREMENT" }),
-    onAddCounter: () => dispatch({ type: "ADD", value: 5 }),
-    onSubtractCounter: () => dispatch({ type: "SUBTRACT", value: 5 }),
-    onStoreResult: () => dispatch({ type: "STORE_RESULT" }),
-    onDeleteResult: id => dispatch({ type: "DELETE_RESULT", resultElId: id })
-  };
-};
-
-export default connect(
-  mapReduxStateToContainerProps,
-  mapDispatchActionsToContainerProps
-)(Counter);
