@@ -67,8 +67,7 @@ const mapReduxStateToContainerProps = state => {
 
 const mapDispatchActionsToContainerProps = dispatch => {
   return {
-    onIncrementCounter: () => dispatch({ type: "INCREMENT" }),
-    onAddCounter: () => dispatch({ type: "INCREMENT" })
+    onIncrementCounter: () => dispatch({ type: "INCREMENT" })
   };
 };
 
