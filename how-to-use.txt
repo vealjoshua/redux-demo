@@ -258,18 +258,26 @@ Compare my code to yours to solve issues you might encounter. You may also copy 
 
     It's a good practice to outsource actions to reduce bugs typos.
     Create an actions.js file in the store and export const actions.
-    import * as actionTypes from './actions' in reducer.js
+
+    export const INCREMENT = "INCREMENT";
+    export const DECREMENT = "DECREMENT";
+    export const ADD = "ADD";
+    export const SUBTRACT = "SUBTRACT";
+    export const STORE_RESULT = "STORE_RESULT";
+    export const DELETE_RESULT = "DELETE_RESULT";
+
+    import * as actionTypes from './actions' in reducer.js and Counter.js
     If a case is mispelled, the compiler throws an error.
     Replace actionTypes in reducer and Counter
 
 12. Combining Multiple Reducers
 
-    Split up the rudecers in reducer.js. This will help the code scale as more code is added.
+    Split up the reducers in reducer.js. This will help the code scale as more code is added.
     Create a reducers folder. Create 2 files counter, result (the 2 states) in the reducers folder.
-    Copy reducer code to both files. Update actions import. The counter is still being access in result.js because the reducers are going to be combined in the end.
+    Copy reducer code to both files. Update the actions import. The counter is still being access in result.js because the reducers are going to be combined in the end.
     Delete reducer.js
     Import the reducers into index.js
-    Import combineReducers
+    Import  from 'redux'
     Combine the reducers.
     const rootReducer = combineReducers({
         ctr: counterReducer,
