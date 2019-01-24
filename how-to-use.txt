@@ -8,17 +8,67 @@ Compare my code to yours to solve issues you might encounter. You may also copy 
 1. Setting Up the Reducer and Store
 
     Show users the stand-alone function of redux by create a node.js file containing a store and reducer and output the state.
+    npm install --save redux
 
-// Initial State
-// Reducer
-// Store
-// Subscription
-// Dispatching Action
+    const redux = require("redux");
+    const createStore = redux.createStore;
+
+    initialState = {
+        counter: 0
+    };
+
+    // Reducer
+    rootReducer = (state = initialState, action) => {
+        if (action.type == "INC_COUNTER") {
+            return {
+            ...state,
+            counter: state.counter + 1
+            };
+        }
+        if (action.type == "ADD_COUNTER") {
+            return {
+            ...state,
+            counter: state.counter + action.value
+            };
+        }
+
+        return state;
+    };
+
+    // Store
+    const store = createStore(rootReducer);
+    console.log(store.getState());
 
 2. Dispacting Actions
 
     Create 2 store.dispatch to show users how to dispatch an action. Create action.type case handling in the rootReducer to update the store. Remember not to mutate the state!
 
+    // Dispatching Action
+    store.dispatch({ type: "INC_COUNTER" });
+    store.dispatch({ type: "ADD_COUNTER", value: 10 });
+    console.log(store.getState());
+
 3. Adding Subscriptions
 
     Show how to add subscriptions to the store to get updated whenever an action is dispatched.
+
+    // Subscription
+    store.subscribe(() => {
+        console.log("[Subscription]", store.getState());
+    });
+
+4. Connecting React to Redux
+
+    The store should be created right before the application starts (index.js).
+    Create a reducer file that returns the state. Create a store in index.js.
+
+5. Connecting the Store to React
+
+    npm install --save react-redux
+    import Provider. Allows us to inject store into React components.
+    How to get the counter value from the store into the Counter container? (What is a container?)
+    We don't change the pattern of a few selected components getting the state and passing it on.
+    import { connect } from 'react-redux' to connect container to store. connect is a curried function.
+    connect takes a function: mapReduxStateToContainerProps. 
+    The state in the container manages internal state.
+    Update react and react-dom to 16.6.0
