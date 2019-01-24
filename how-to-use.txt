@@ -163,7 +163,7 @@ Compare my code to yours to solve issues you might encounter. You may also copy 
 16. Restructuring Actions
 
     Create a counter.js and result.js in the actions folder. Rename actions.js to actionTypes.js
-    Keep constants in actionTypes. Move action creators to respective files.
+    Keep constants in actionTypes. Move action creators to respective files. import * as actionTypes from actionTypes
     Create an index.js in the actions folder.
     Add 
     export { add, subtract, increment, decrement } from "./counter";
