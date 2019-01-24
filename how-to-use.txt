@@ -178,13 +178,14 @@ Compare my code to yours to solve issues you might encounter. You may also copy 
     Can pass getState as an argument in the return function of storeResult.
 
     export const storeResult = res => {
-        return (dispatch, getState) => {
-            setTimeout(() => {
-            const oldCounter = getState().ctr.counter;
-            dispatch(saveResult(res));
-            }, 2000);
-        };
+    return (dispatch, getState) => {
+        setTimeout(() => {
+        const oldCounter = getState().ctr.counter;
+        console.log(oldCounter)
+        dispatch(saveResult(res));
+        }, 2000);
     };
+};
 
     You should try not to use getState.
 
