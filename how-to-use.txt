@@ -4,3 +4,55 @@ How to use the downloaded files
 2) Run "npm start" to view the project
 
 Compare my code to yours to solve issues you might encounter. You may also copy the content of src/ into your own project's src/ folder to use your project setup (which might've been created with a different create-react-app version) and still use my code.
+
+1. Setting Up the Reducer and Store
+
+    Show users the stand-alone function of redux by create a node.js file containing a store and reducer and output the state.
+    npm install --save redux
+
+    const redux = require("redux");
+    const createStore = redux.createStore;
+
+    initialState = {
+        counter: 0
+    };
+
+    // Reducer
+    rootReducer = (state = initialState, action) => {
+        if (action.type == "INC_COUNTER") {
+            return {
+            ...state,
+            counter: state.counter + 1
+            };
+        }
+        if (action.type == "ADD_COUNTER") {
+            return {
+            ...state,
+            counter: state.counter + action.value
+            };
+        }
+
+        return state;
+    };
+
+    // Store
+    const store = createStore(rootReducer);
+    console.log(store.getState());
+
+2. Dispacting Actions
+
+    Create 2 store.dispatch to show users how to dispatch an action. Create action.type case handling in the rootReducer to update the store. Remember not to mutate the state!
+
+    // Dispatching Action
+    store.dispatch({ type: "INC_COUNTER" });
+    store.dispatch({ type: "ADD_COUNTER", value: 10 });
+    console.log(store.getState());
+
+3. Adding Subscriptions
+
+    Show how to add subscriptions to the store to get updated whenever an action is dispatched.
+
+    // Subscription
+    store.subscribe(() => {
+        console.log("[Subscription]", store.getState());
+    });
