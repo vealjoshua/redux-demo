@@ -259,6 +259,60 @@ Compare my code to yours to solve issues you might encounter. You may also copy 
     So how do we run async code?
     Create an actions folder and move the actions file in the store.
     An Action Creator is a function that returns an action. An actionCreator would replace the js object in the dispatch methods.
-    Get rid of actionTypes import in Counter. Replace dispatch object with action creator. import the functions from actions and replace.
+
+    Add to ----------actions.js----------
+        export const increment = () => {
+    return {
+        type: INCREMENT
+    };
+    };
+
+    export const decrement = () => {
+    return {
+        type: DECREMENT
+    };
+    };
+
+    export const add = val => {
+    return {
+        type: ADD,
+        value: val
+    };
+    };
+
+    export const subtract = val => {
+    return {
+        type: SUBTRACT,
+        value: val
+    };
+    };
+
+    export const storeResult = res => {
+    return {
+        type: STORE_RESULT,
+        result: res
+    };
+    };
+
+    export const deleteResult = resElId => {
+    return {
+        type: DELETE_RESULT,
+        resultElId: resElId
+    };
+    };
+
+    Get rid of actionTypes import in Counter. 
+    
+    import * as actionCreators from "../../store/actions/actions";
+
+    Replace dispatch object with action creator. import the functions from actions and replace.
+
+    onIncrementCounter: () => dispatch(actionCreators.increment()),
+    onDecrementCounter: () => dispatch(actionCreators.decrement()),
+    onAddCounter: () => dispatch(actionCreators.add(5)),
+    onSubtractCounter: () => dispatch(actionCreators.subtract(5)),
+    onStoreResult: result => dispatch(actionCreators.storeResult(result)),
+    onDeleteResult: id => dispatch(actionCreators.deleteResult(id))
+    
     Give them 5 minutes to replace them all.
     It is now working with synchronous code. Let's do asynchronous code next.
