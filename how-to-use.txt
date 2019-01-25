@@ -331,7 +331,7 @@ Compare my code to yours to solve issues you might encounter. You may also copy 
         composeEnhancers(applyMiddleware(logger, thunk))
     );
 
-    --------actions/result.js--------
+    --------actions/actions.js--------
     In store result, create stepTimeout.
     export const storeResult = res => {
         return dispatch => {
@@ -344,7 +344,7 @@ Compare my code to yours to solve issues you might encounter. You may also copy 
 
     export const saveResult = res => {
         return {
-            type: actionTypes.STORE_RESULT,
+            type: STORE_RESULT,
             result: res
         };
     };
@@ -364,3 +364,75 @@ Compare my code to yours to solve issues you might encounter. You may also copy 
     Change actionTypes import in Counter to index
 
 17. Where to Put Data Transforming Logic?
+
+18. Using Action Creators and Get State
+    Can pass getState as an argument in the return function of storeResult.
+
+    export const storeResult = res => {
+        return (dispatch, getState) => {
+            setTimeout(() => {
+            const oldCounter = getState().ctr.counter;
+            dispatch(saveResult(res));
+            }, 2000);
+        };
+    };
+
+    You should try not to use getState.
+
+19. Using Utility Functions
+
+    We can abstract our reducers even more. Create a utility.js file in the store.
+
+    export const updateObject = (oldObject, updatedValues) => {
+        return {
+            ...oldObject,
+            ...updatedValues
+        };
+    };
+
+    Replace return functions in counter.js reducer with updateObject.
+
+    --------reducers/counter.js------------
+    import { updateObject } from '../utility'
+
+    switch (action.type) {
+    case actionTypes.INCREMENT:
+      return updateObject(state, { counter: state.counter + 1 });
+
+    case actionTypes.DECREMENT:
+      return updateObject(state, { counter: state.counter - 1 });
+
+    case actionTypes.ADD:
+      return updateObject(state, { counter: state.counter + action.value });
+
+    case actionTypes.SUBTRACT:
+      return updateObject(state, { counter: state.counter - action.value });
+
+
+    --------reducers/result.js-----------
+    case actionTypes.STORE_RESULT:
+      return updateObject(state, {
+        results: state.results.concat({ id: new Date(), value: action.result })
+      });
+
+    Do the same for result.js reducer. For DELETE_RESULT is an array, we can write a short method.
+
+20. A Leaner Switch Case Statement
+
+    Can create a helper function for deleteResult
+
+    ----------reducers/result.js----------
+    const deleteResult = (state, action) => {
+        const updatedArray = state.results.filter(
+            result => result.id !== action.resultElId
+        );
+
+        return updateObject(state, { results: updatedArray });
+    };
+
+    case actionTypes.DELETE_RESULT:
+      return deleteResult(state, action);
+
+21. Diving Much Deeper
+
+    https://redux.js.org/
