@@ -154,42 +154,6 @@ Compare my code to yours to solve issues you might encounter. You may also copy 
 
     Change out the if statements for switch cases
 
-    -------reducer.js-----------
-    const initialState = {
-        counter: 0,
-        results: []
-    };
-
-    const reducer = (state = initialState, action) => {
-    switch (action.type) {
-        case "INCREMENT":
-        return {
-            ...state,
-            counter: state.counter + 1
-        };
-        case "DECREMENT":
-        return {
-            ...state,
-            counter: state.counter - 1
-        };
-        case "ADD":
-        return {
-            ...state,
-            counter: state.counter + action.value
-        };
-        case "SUBTRACT":
-        return {
-            ...state,
-            counter: state.counter - action.value
-        };
-        default:
-        return state;
-    }
-    };
-
-    export default reducer;
-
-
 9. Updating State Immutably
 
     We are going to create a way to store the counter and delete it.
@@ -204,10 +168,6 @@ Compare my code to yours to solve issues you might encounter. You may also copy 
 
     ------Counter.js----------
     Add onStoreResult and onDeleteResult to mapDispatchToProps.
-    
-    onStoreResult: () => dispatch({ type: "STORE_RESULT" }),
-    onDeleteResult: id => dispatch({ type: "DELETE_RESULT", resultElId: id })
-
     Add the onClick props to the button and li.
 
         <hr />
@@ -219,65 +179,37 @@ Compare my code to yours to solve issues you might encounter. You may also copy 
     The actions have to be handled in the reducer.
     Add spread operator to each case. 
     On storeResult, create a new resuls array with state.results.concat(state.counter)
-
-    -----------reducer.js------------
-    case "STORE_RESULT":
-      return {
-        ...state,
-        results: state.results.concat({ id: new Date(), value: state.counter })
-      };
-    case "DELETE_RESULT":
-      return {};
-
-    Add storedResult to the container props. 
-    
-    const mapReduxStateToContainerProps = state => {
-        return {
-            ctr: state.counter,
-            storedResults: state.results
-        };
-    };
-
-
+    Add storeResult to the container props. 
     map out storedResult to li elements.
 
-    <hr />
-        <button onClick={this.props.onStoreResult}>Store Result</button>
-        <ul>
-          {this.props.storedResults.map(strResult => (
-            <li
-              key={strResult.id}
-              onClick={() => this.props.onDeleteResult(strResult.id)}
-            >
-              {strResult.value}
-            </li>
-          ))}
-        </ul>
+10. Updating Arrays Immutably
+
+    What is wrong with state.results.splice(id, 1) since we want to change the original array anyway?
+    Mutating the original state makes the state unpredictable.
+    Use filter to create an updated array.
+    const updatedArray = state.results.filter(
+        result => result.id !== action.resultElId
+      );
+    Update the dispatch payload and the onClick prop of the li.
+
+    https://redux.js.org/recipes/structuring-reducers/immutable-update-patterns
 
 11. Outsourcing Action Types
 
     It's a good practice to outsource actions to reduce bugs typos.
-    Create an actions.js file in the store and export const actions.
-
-    export const INCREMENT = "INCREMENT";
-    export const DECREMENT = "DECREMENT";
-    export const ADD = "ADD";
-    export const SUBTRACT = "SUBTRACT";
-    export const STORE_RESULT = "STORE_RESULT";
-    export const DELETE_RESULT = "DELETE_RESULT";
-
-    import * as actionTypes from './actions' in reducer.js and Counter.js
+    Create an actions.js file and export const actions.
+    import * as actionTypes from './actions' in reducer.js
     If a case is mispelled, the compiler throws an error.
     Replace actionTypes in reducer and Counter
 
 12. Combining Multiple Reducers
 
-    Split up the reducers in reducer.js. This will help the code scale as more code is added.
+    Split up the rudecers in reducer.js. This will help the code scale as more code is added.
     Create a reducers folder. Create 2 files counter, result (the 2 states) in the reducers folder.
-    Copy reducer code to both files. Update the actions import. The counter is still being access in result.js because the reducers are going to be combined in the end.
+    Copy reducer code to both files. Update actions import. The counter is still being access in result.js because the reducers are going to be combined in the end.
     Delete reducer.js
     Import the reducers into index.js
-    Import combineReducers from 'redux'
+    Import combineReducers
     Combine the reducers.
     const rootReducer = combineReducers({
         ctr: counterReducer,
@@ -286,18 +218,7 @@ Compare my code to yours to solve issues you might encounter. You may also copy 
     Update mapReduxStateToContainerProps with state.ctr.counter, state.res.result. Combining reducers adds another layer.
     There's an error now. The reducer function only has access to the local state, not the global state.
     Update result.js with action.result instead of state.counter
-
-    ---------Counter.js--------------
-    Pass the counter in the button onClick.
-
-    <button onClick={() => this.props.onStoreResult(this.props.ctr)}>
-          Store Result
-        </button>
-    Passing result into dispatch, sending the result in the payload,
-
-    onStoreResult: result =>
-      dispatch({ type: actionTypes.STORE_RESULT, result: result }),
-      
+    Update Counter.js by passing result into dispatch, sending the result in the payload, and passing the counter in the button onClick.
     Changed the list key to index. Deleted Counter.js CounterChangedHandler and state.
 
 13. Adding Middleware
@@ -305,18 +226,30 @@ Compare my code to yours to solve issues you might encounter. You may also copy 
     Add a logger to index.js.
     next is used to execute the next function in the process.
     const logger = store => {
-    return next => {
-        return action => {
-            console.log("[Middleware] Dispatching", action);
-            const result = next(action);
-            console.log("[Middleware] next state", store.getState());
-            return result;
+        return next => {
+            return action => {
+                console.log("[Middleware] Dispatching", action);
+                const result = next(action);
+                console.log("[Middleware] next state", store.getState());
+                return result;
+            };
         };
     };
-    };
     Use applyMiddleware in the createStore function and apply the logger.
+
+    const store = createStore(
+        rootReducer,
+        applyMiddleware(logger)
+    );
 
 13. Using the Redux Devtools
 
     Google redux DevTools. Add to Chrome. Copy window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ from Advanced store setup since we're using middleware.
     Import compose in index.js. Wrap applyMiddleware with composeEnhancers.
+
+    const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+    const store = createStore(
+        rootReducer,
+        composeEnhancers(applyMiddleware(logger))
+    );
