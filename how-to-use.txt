@@ -254,6 +254,18 @@ Compare my code to yours to solve issues you might encounter. You may also copy 
           ))}
         </ul>
 
+10. Updating Arrays Immutably
+
+    What is wrong with state.results.splice(id, 1) since we want to change the original array anyway?
+    Mutating the original state makes the state unpredictable.
+    Use filter to create an updated array.
+    const updatedArray = state.results.filter(
+        result => result.id !== action.resultElId
+      );
+    Update the dispatch payload and the onClick prop of the li.
+
+    https://redux.js.org/recipes/structuring-reducers/immutable-update-patterns
+    
 11. Outsourcing Action Types
 
     It's a good practice to outsource actions to reduce bugs typos.
